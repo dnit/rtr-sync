@@ -3,8 +3,10 @@ import logging
 import threading
 from queue import Queue, Empty
 from typing import List
-from .models import SyncEvent
 from .worker import ConsumerWorkerI2E
+
+
+logger = logging.getLogger(__name__)
 
 
 class EventScheduler(threading.Thread):
@@ -21,7 +23,6 @@ class EventScheduler(threading.Thread):
         return int(digest[:8], 16) % self._num_consumers
 
     def run(self):
-        logger = logging.getLogger(__name__)
         batch = []
         while not self._stop_event.is_set():
             try:

@@ -12,9 +12,10 @@ from .deps.api_client import MockExternalAPIClient
 from .worker import ConsumerWorkerI2E
 from .scheduler import EventScheduler
 
+logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
+
+
 def main():
-    logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
-    random.seed(42)
 
     NUM_CONSUMERS = 4
     TOTAL_EVENTS = 30

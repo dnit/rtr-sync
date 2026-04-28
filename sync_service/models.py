@@ -27,4 +27,4 @@ class SyncEvent(BaseModel):
     object_type: str
     payload: InternalContact
     timestamp: datetime
-    crm_type: str  # maybe this can be derived off from somewhere else.
+    crm_type: str  # maybe this can be derived off from somewhere else, maybe via config store.
