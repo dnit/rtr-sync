@@ -2,7 +2,7 @@
 
 This system synchronises records from our internal system  to
 various **external systems CRM providers (System B)**. It focuses on the
-**Internal → External** direction – consuming internal change events,
+**Internal -> External** direction – consuming internal change events,
 transforming them, and applying the corresponding CRUD operations on the
 external API respecting rate limits.
 
@@ -39,7 +39,7 @@ external API respecting rate limits.
     Stores and manages org-specific authentication credentials required to interact with external systems.
 
 8. **Rate Limit Cache** (mocked)
-    Tracks and enforces rate limits per tenant and provider to prevent throttling by external systems. Most likely a TOKEN BUCKET implemented in REDIS.
+    Tracks and enforces rate limits per tenant and provider to prevent throttling by external systems. Most likely a TOKEN BUCKET implemented in REDIS. This is more of a rate limit checker rather than rate limiter and should act as a fail OPEN when this is down.
     key -> (org_id, provider, api[OPTIONAL])
 
 9. **Dead Letter QUEUE** (DLQ) (mocked)
@@ -66,5 +66,12 @@ We use `uv` for dependency management and execution.
     ```
     uv run pytest tests/
     ```
+
+
+## Scope of Improvements
+ - For 300M syncs / daily = 3,500 to 35000 (consider bursts) /sec, convert to async Python or preferrably Golang.
+ - more test coverage
+ - ConsumerE2I (external to internal) consumer implementation for sync changes coming via either webhook events or via routine sync (routine sync should get all updated records post last time it was synced)
+
 
 ![High level Architecture Diagram](architecture.png)
